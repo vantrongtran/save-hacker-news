@@ -4,6 +4,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import InfiniteScroll from 'react-infinite-scroller';
 import Article from './components/Article';
 
+import ArticleDetailDialog from './components/ArticleDetailDialog';
+
 const useStyles = makeStyles({
   loader: {
     display: 'flex',
@@ -15,6 +17,7 @@ const useStyles = makeStyles({
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
+  const [selectedAricle, setSelectedAricle] = useState(null);
   const [meta, setMeta] = useState({ current_page: 1, had_more: true });
 
   const classes = useStyles();
@@ -39,21 +42,35 @@ export default function Home() {
         <Article key={item} loading />
       ));
     }
-    return articles.map((item) => <Article article={item} key={item.id} />);
+    return articles.map((item) => (
+      <Article
+        article={item}
+        key={item.id}
+        setSelectedAricle={setSelectedAricle}
+      />
+    ));
   }
 
   return (
-    <InfiniteScroll
-      pageStart={1}
-      loadMore={() => getArticleList(meta.current_page + 1)}
-      hasMore={meta.had_more}
-      loader={(
-        <div className={classes.loader} key={0}>
-          <CircularProgress disableShrink color="secondary" />
-        </div>
+    <>
+      <InfiniteScroll
+        pageStart={1}
+        loadMore={() => getArticleList(meta.current_page + 1)}
+        hasMore={meta.had_more}
+        loader={(
+          <div className={classes.loader} key={0}>
+            <CircularProgress disableShrink color="secondary" />
+          </div>
+        )}
+      >
+        {renderArticleList()}
+      </InfiniteScroll>
+      {selectedAricle && (
+        <ArticleDetailDialog
+          article={selectedAricle}
+          setSelectedAricle={setSelectedAricle}
+        />
       )}
-    >
-      {renderArticleList()}
-    </InfiniteScroll>
+    </>
   );
 }

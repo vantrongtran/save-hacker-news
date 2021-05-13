@@ -19,5 +19,5 @@ export default function ApplicationRoute({ component: Component, ...rest }) {
 }
 
 ApplicationRoute.propTypes = {
-  component: PropTypes.element.isRequired,
+  component: PropTypes.func.isRequired,
 };

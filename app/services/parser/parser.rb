@@ -8,12 +8,12 @@ class Parser::Parser < ApplicationService
     Net::HTTP.get(url)
   end
 
-  def parse_html(html)
-    Nokogiri::HTML.parse html
+  def parse_html(source)
+    Nokogiri::HTML.parse source
   end
 
-  def get_content_html(html)
-    Readability::Document.new(html).content
+  def get_content_html(source)
+    Readability::Document.new(source, remove_empty_nodes: true).content
   end
 
   def extract_number_from str
