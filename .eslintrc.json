@@ -31,6 +31,8 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "camelcase": "off",
+    "react/no-danger": "off",
+    "react-hooks/exhaustive-deps": "off",
     "react/jsx-filename-extension": [
       1,
       {
